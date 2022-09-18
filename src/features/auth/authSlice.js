@@ -17,7 +17,7 @@ export const login = createAsyncThunk(
                     }),
                 }
             );
-            navigate("/maxdev-contacts/contacts");
+            navigate("/maxdev-contacts/contacts/");
             return response.json();
         } catch (error) {}
     }
@@ -43,7 +43,7 @@ export const register = createAsyncThunk(
             toast.info("Account created Successfully !!", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
-            navigate("/maxdev-contacts/contacts");
+            navigate("/maxdev-contacts/contacts/");
             return response.json();
         } catch (error) {}
     }

@@ -19,9 +19,9 @@ export const App = () => {
         <BrowserRouter>
             <ToastContainer autoClose={1500} />
             <Routes>
-                <Route path="/maxdev-contacts" element={<Login />} />
+                <Route path="/maxdev-contacts/" element={<Login />} />
                 <Route
-                    path="/maxdev-contacts/contacts"
+                    path="/maxdev-contacts/contacts/"
                     element={<RequiredAuth><Contacts /></RequiredAuth>
                     }
                 />
