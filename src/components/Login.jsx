@@ -8,6 +8,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
+import portada from "../assets/portada_contacts.svg"
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { resetContacts } from "../features/contact/contactSlice";
@@ -80,7 +81,7 @@ export const Login = () => {
                         <span className="text-danger" ref={el}></span>
                     </h1>
                     <img
-                        src="src\assets\portada_contacts.svg"
+                        src={portada}
                         className="img-fluid w-50 d-none d-sm-block"
                     />
                 </div>
