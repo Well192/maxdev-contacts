@@ -28,7 +28,7 @@ export const Contacts = () => {
 
     const handleLogout = () => {
         dispatch(setLogout());
-        navigate("/maxdev-contacts");
+        navigate("/maxdev-contacts/");
     };
 
     const handleShowModal = () => {

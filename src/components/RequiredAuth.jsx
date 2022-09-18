@@ -9,7 +9,7 @@ export const RequiredAuth = ({children})=>{
 
     useEffect(()=>{
 
-        if (!isLogin) return navigate("/");
+        if (!isLogin) return navigate("/maxdev-contacts/");
     }, [ ])
     
     return children
