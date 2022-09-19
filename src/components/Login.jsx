@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login, register, setLogin } from "../features/auth/authSlice";
 import Typed from "typed.js";
 import IconButton from "@mui/material/IconButton";
@@ -8,7 +8,7 @@ import OutlinedInput from "@mui/material/OutlinedInput";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import FormControl from "@mui/material/FormControl";
-import portada from "../assets/portada_contacts.svg"
+import portada from "../assets/portada_contacts.svg";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { resetContacts } from "../features/contact/contactSlice";
@@ -27,6 +27,7 @@ export const Login = () => {
     const handleChange = (e) => {
         setLoginValue({ ...loginValue, [e.target.name]: e.target.value });
     };
+
     useEffect(() => {
         const typed = new Typed(el.current, {
             strings: ["Contacts", "Notes"],
@@ -52,20 +53,38 @@ export const Login = () => {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
-
+    const emailRegex = /\S+@\S+\.\S+/;
     const handleRegister = () => setIsRegister(true);
     const handleLogin = () => setIsRegister(false);
     const handleSubmit = (e) => {
-        if(!isRegister){
-            e.preventDefault();
-            dispatch(setLogin());
-            dispatch(resetContacts());
-            dispatch(login({ loginValue, navigate }));
-        }else {
-            e.preventDefault();
-            dispatch(setLogin());
-            dispatch(resetContacts());
-            dispatch(register({ loginValue, navigate, toast }));
+        if (loginValue.email && loginValue.password) {
+            if (!isRegister) {
+                if (emailRegex.test(loginValue.email)) {
+                    e.preventDefault();
+                    dispatch(setLogin());
+                    dispatch(resetContacts());
+                    dispatch(login({ loginValue, navigate, toast }));
+                } else {
+                    toast.error("Email invalid !!", {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                    });
+                }
+            } else {
+                if (emailRegex.test(loginValue.email)) {
+                    e.preventDefault();
+                    dispatch(setLogin());
+                    dispatch(resetContacts());
+                    dispatch(register({ loginValue, navigate, toast }));
+                } else {
+                    toast.error("Email invalid !!", {
+                        position: toast.POSITION.BOTTOM_RIGHT,
+                    });
+                }
+            }
+        } else {
+            toast.info("Por favor completar los campos", {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            });
         }
     };
 
@@ -105,6 +124,7 @@ export const Login = () => {
                                         type="email"
                                         label="Email"
                                         name="email"
+                                        required={true}
                                         onChange={handleChange}
                                         color="success"
                                         autoFocus={true}
@@ -129,6 +149,7 @@ export const Login = () => {
                                                 ? "text"
                                                 : "password"
                                         }
+                                        required={true}
                                         value={loginValue.password}
                                         color="success"
                                         name="password"

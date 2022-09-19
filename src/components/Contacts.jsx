@@ -14,13 +14,13 @@ export const Contacts = () => {
     const dispatch = useDispatch();
 
     const navigate = useNavigate();
-    const { user, isLogin } = useSelector((state) => ({ ...state.auth }));
+    const { user, isLogin } = useSelector((state) => state.auth);
     const [modalShow, setModalShow] = useState(false);
     const [newContact, setNewContact] = useState({
         name:" ",
         phone:" ",
     })
-    const { contacts } = useSelector((state) => ({ ...state.contacts }));
+    const { contacts } = useSelector((state) => state.contacts );
 
     useEffect(() => {
         dispatch(getContacts(user?.accessToken));
@@ -46,7 +46,7 @@ export const Contacts = () => {
         dispatch(createContacts({newContact,toast}))
         setModalShow(false);
     }
-
+ 
     return (
         <>
             <nav
@@ -113,7 +113,7 @@ export const Contacts = () => {
                     </InputLabel>
                     <OutlinedInput
                         id="outlined-start-adornment"
-                        type="email"
+                        type="text"
                         label="Name"
                         name="name"
                         autoFocus={true}
@@ -133,6 +133,7 @@ export const Contacts = () => {
                         id="outlined-adornment-password"
                         color="success"
                         name="phone"
+                        type="number"
                         onChange={handleChange}
                         label="Phone"
 

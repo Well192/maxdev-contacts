@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+
 export const login = createAsyncThunk(
     "auth/login",
-    async ({ loginValue, navigate }) => {
+    async ({ loginValue, navigate, toast },{rejectWithValue}) => {
         try {
             const response = await fetch(
                 "https://hsmxcontacts.herokuapp.com/api/user/auth/login",
@@ -17,15 +18,22 @@ export const login = createAsyncThunk(
                     }),
                 }
             );
+            const data = await response.json()
+            if(data?.message) throw data
             navigate("/maxdev-contacts/contacts/");
-            return response.json();
-        } catch (error) {}
+            return data;
+        } catch (error) {
+            toast.error(error.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            })
+            return rejectWithValue(error)
+        }
     }
 );
 
 export const register = createAsyncThunk(
     "auth/register",
-    async ({ loginValue, navigate, toast }) => {
+    async ({ loginValue, navigate, toast },{rejectWithValue}) => {
         try {
             const response = await fetch(
                 "https://hsmxcontacts.herokuapp.com/api/user/auth/registro",
@@ -40,12 +48,19 @@ export const register = createAsyncThunk(
                     }),
                 }
             );
+            const data = await response.json()
+            if(data?.message) throw data
             toast.info("Account created Successfully !!", {
                 position: toast.POSITION.BOTTOM_RIGHT,
             });
             navigate("/maxdev-contacts/contacts/");
             return response.json();
-        } catch (error) {}
+        } catch (error) {
+            toast.error(error.message, {
+                position: toast.POSITION.BOTTOM_RIGHT,
+            })
+            return rejectWithValue(error)
+        }
     }
 );
 export const authSlice = createSlice({
@@ -68,6 +83,7 @@ export const authSlice = createSlice({
         },
         setLogin: (state, action)=>{
             state.isLogin = true
+            
         }
         
     },
@@ -78,11 +94,12 @@ export const authSlice = createSlice({
         [login.fulfilled]: (state, action) => {
             state.loading = false;
             localStorage.setItem("user", JSON.stringify({ ...action.payload }));
+            localStorage.setItem("logeado",JSON.stringify({logeado:true}))
             state.user = action.payload;
         },
         [login.rejected]: (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = action.payload.message;
         },
         [register.pending]: (state, action) => {
             state.loading = true;
@@ -94,7 +111,7 @@ export const authSlice = createSlice({
         },
         [register.rejected]: (state, action) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = action.payload.message;
         },
     },
 });

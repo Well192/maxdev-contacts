@@ -1,17 +1,15 @@
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react"
-export const RequiredAuth = ({children})=>{
-    
-    const { isLogin } = useSelector((state) => ({ ...state.auth }));
-    
-    const navigate = useNavigate()
+import { useEffect, useState } from "react";
+export const RequiredAuth = ({ children }) => {
+   
+    const isLogin = JSON.parse(localStorage.getItem("logeado"))
 
-    useEffect(()=>{
+    const navigate = useNavigate();
+ 
+    useEffect(() => {
+        if (!isLogin?.logeado) return navigate("/maxdev-contacts/");
+    }, [ ]);
 
-        if (!isLogin) return navigate("/maxdev-contacts/");
-    }, [ ])
-    
-    return children
-
-}
+    return children;
+};
