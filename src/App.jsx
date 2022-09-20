@@ -17,7 +17,7 @@ export const App = () => {
 
     return (
         <BrowserRouter>
-            <ToastContainer autoClose={1500} />
+            <ToastContainer autoClose={1501} />
             <Routes>
                 <Route path="/maxdev-contacts/" element={<Login />} />
                 <Route
