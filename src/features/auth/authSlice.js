@@ -107,6 +107,7 @@ export const authSlice = createSlice({
         [register.fulfilled]: (state, action) => {
             state.loading = false;
             localStorage.setItem("user", JSON.stringify({ ...action.payload }));
+            localStorage.setItem("logeado",JSON.stringify({logeado:true}))
             state.user = action.payload;
         },
         [register.rejected]: (state, action) => {
